@@ -1,0 +1,181 @@
+<!-- <p>user-register works!</p> -->
+<!-- user registration form using reactive form -->
+<!-- at form level using property binding we can bind our form group like this in
+reactive forms [FormGroup]="registrationForm"
+simillarly template driven form ngSubmit we can use and call a function
+in our registercomponent using event binding (ngSubmit) both in tdf and rf
+we do not declare any template reference variable in html to access in component file
+tdf logic flow template to component , where as reactive forms component to template -->
+<!-- how to display validation errors in reactive form(rf) templates we already have
+seen in add-property template we use tdf where we were to access the state of
+the any input control we have to define template reference varable to pass
+ngModel and that template reference variable we could use to get the current
+state of that control
+but in rf its very simpler and same can be achieved with lesser code -->
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <div class="card">
+      <div class="card-header">Register</div>
+
+      <div class="card-body">
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+          <!-- Name -->
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input
+              type="text"
+              id="name"
+              class="form-control"
+              formControlName="userName"
+            />
+            <!-- <span
+              *ngIf="
+                !registrationForm.get('userName')?.valid &&
+                registrationForm.get('userName')?.touched
+              "
+              class="error-block"
+            > -->
+            <span
+              *ngIf="!userName.valid && (userName.touched || userSubmitted)"
+              class="error-block"
+            >
+              Please provide name
+            </span>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              formControlName="email"
+            />
+            <span
+              *ngIf="!email.valid && (email.touched || userSubmitted)"
+              class="error-block"
+            >
+              <span *ngIf="email.hasError('required')"> Provide email id </span>
+              <span *ngIf="email.hasError('email')">
+                Provide valid email id
+              </span>
+            </span>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              formControlName="password"
+            />
+            <span
+              *ngIf="!password.valid && (password.touched || userSubmitted)"
+              class="error-block"
+            >
+              <span *ngIf="password.hasError('required')"
+                >Please provide password</span
+              >
+              <span *ngIf="password.hasError('minlength')"
+                >Password should not be lesser than 8 characters
+              </span>
+            </span>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              id="confirmPassword"
+              class="form-control"
+              formControlName="confirmPassword"
+            />
+
+            <span
+              *ngIf="
+                !confirmPassword.valid &&
+                (confirmPassword.touched || userSubmitted)
+              "
+              class="error-block"
+            >
+              <span *ngIf="confirmPassword.hasError('required')">
+                Please confirm password
+              </span>
+            </span>
+            <span
+              *ngIf="
+                registrationForm.hasError('notmatched') &&
+                confirmPassword.touched
+              "
+              class="error-block"
+            >
+              Password not matched
+            </span>
+          </div>
+
+          <!-- Mobile -->
+          <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile</label>
+            <input
+              type="text"
+              id="mobile"
+              class="form-control"
+              formControlName="mobile"
+            />
+            <span
+              *ngIf="!mobile.valid && (mobile.touched || userSubmitted)"
+              class="error-block"
+            >
+              <span *ngIf="mobile.hasError('required')">
+                Please provide mobile
+              </span>
+              <span *ngIf="mobile.hasError('maxlength')" class="error-block">
+                Invalid mobile number
+              </span>
+            </span>
+          </div>
+
+          <!-- Buttons -->
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="reset" class="btn btn-secondary">Cancel</button>
+          </div>
+          <!-- display form value, use JSONPipe in imports section -->
+          display formValues:{{ registrationForm.value | json }} <br />
+          display formStatus:{{ registrationForm.valid }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- advantegs of rf over tdf 
+ 1.clearner template : it removes core validation logic from template
+ we can develop application faster because of rf
+ 2.better performance : in rf each form element in the view is direclty
+ to a form model, but tdf use directives to integrate the form functionalities
+ and directives are always an abstraction over the angular low level api's
+ and that additional layer will cause slight performance degradation
+ while rf has direct access to the low lecel api's
+ 3.rf are more predictable : in reactive form update view to the model
+ and model to view are synchronous(at a time mapped)
+ synchronous process : processses are executed in a sequence, for example if two processes are
+ A and B, process B is called in process A THEN PROCESS A will wait until process B
+ completion then only starts further execution
+ asynchronous: in this process Process A will not wait for the process B
+ to complte and move on to the other tasks before it finishes. SO TDF NOT MUCH PREDICTABLE due to asynchronous nature
+  4.easier testing : rf are synchronous and whole business logics are conatins inside our component only
+  these are easier to unit tests and they can tested without rendering UI
+  WHILE TDF CAN'T BE TESTED SUCH ISOLATION, developer required a detailed of change detection process
+  and also we need to use fake async method to get correct value in our test
+  and it uncessarly increasing time in testing
+  5.easier custom and crossfiled validation : implementing custom validation in rfis
+  very easy, but in tdf not that much easy, in addition to create a validator function
+  we have to create custom directive that should wrap to validation function
+  to work with tdf 
+-->

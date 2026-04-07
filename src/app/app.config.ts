@@ -1,9 +1,18 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
+import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { importProvidersFrom } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
-  provideRouter(routes)]
+  provideRouter(routes),
+  provideHttpClient(),
+  importProvidersFrom(BsDropdownModule.forRoot()),
+  provideAnimations()
+
+
+  ]
 };

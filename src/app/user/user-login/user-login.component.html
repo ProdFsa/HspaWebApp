@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <div class="card">
+      <div class="card-header">Login</div>
+
+      <div class="card-body">
+        <!-- using template driven form for login operation -->
+        <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <!-- data binding -->
+            <input class="form-control" ngModel name="userName" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input class="form-control" ngModel name="password" required />
+          </div>
+
+          <div class="mb-3">
+            <!-- when the form was 
+            not valid disabled this submit button using property binding at html level -->
+            <button
+              [disabled]="!loginForm.valid"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Submit
+            </button>
+            <button type="button" class="btn btn-secondary ms-2">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

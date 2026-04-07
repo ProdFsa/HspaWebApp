@@ -1,0 +1,12 @@
+/* .ng-invalid.ng-touched {
+  border-color: red;
+}
+.error-block {
+  color: red;
+} */
+
+.upload-box {
+  height: 400px; /* big box like image */
+  border: 2px dashed #ccc; /* dotted border */
+  border-radius: 5px;
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "Id": 1,
+    "SellRent":2,
+    "Name": "Birla House",
+    "Type": "House",
+    "Price": 12000,
+    "Image":"prop-1"
+  },
+  {
+    "Id": 2,
+    "SellRent":1,
+    "Name": "Green Villa",
+    "Type": "Villa",
+    "Price": 25000,
+     "Image":"prop-2"
+  },
+  {
+    "Id": 3,
+    "SellRent":1,
+    "Name": "Skyline Apartment",
+    "Type": "Apartment",
+    "Price": 18000,
+     "Image":"prop-3"
+  },
+  {
+    "Id": 4,
+    "SellRent":1,
+    "Name": "Lake View Hall",
+    "Type": "Flat",
+    "Price": 15000,
+     "Image":"prop-4"
+  },
+  {
+    "Id": 5,
+    "SellRent":2,
+    "Name": "Sunrise Bungalow",
+    "Type": "Bungalow",
+    "Price": 30000,
+     "Image":"prop-5"
+  },
+  {
+    "Id": 6,
+    "SellRent":1,
+    "Name": "Urban Nest",
+    "Type": "Studio",
+    "Price": 10000
+  }
+]
