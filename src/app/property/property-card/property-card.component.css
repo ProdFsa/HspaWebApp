@@ -9,6 +9,15 @@
   height: 160px;
   opacity: 0.5;
 }
+.card-body h1 {
+  font-family: fantasy;
+  color: #0069d9;
+}
+
+.font-highlight {
+  font-style: italic;
+  color: red;
+}
 
 .card img {
   transform: scale(1, 1);
@@ -39,4 +48,8 @@
 
 .animate {
   transition: all 0.3s ease-in-out;
+}
+
+.card {
+  min-height: 400px;
 }

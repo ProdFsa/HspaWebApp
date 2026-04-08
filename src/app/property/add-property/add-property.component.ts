@@ -1,18 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule, NgForm } from '@angular/forms'
+import { FormBuilder, FormGroup, FormsModule, NgForm, Validators, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common';
 import { TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PropertyCardComponent } from "../property-card/property-card.component";
-import { IProperty } from '../IProperty';
+import { IPropertyBase } from '../../models/ipropertybase';
+
+
+
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-add-property',
   standalone: true,
-  imports: [FormsModule, CommonModule, TabsModule, ButtonsModule, BsDatepickerModule, PropertyCardComponent],
+  imports: [FormsModule, CommonModule, TabsModule, ButtonsModule, BsDatepickerModule, PropertyCardComponent, ReactiveFormsModule],
   templateUrl: './add-property.component.html',
   styleUrls: ['./add-property.component.css']
 })
@@ -20,22 +23,27 @@ export class AddPropertyComponent implements OnInit {
 
   //without passing form as a variable in onsubmit method we can use viewchild
   //WE CAN PASS TEMPLATE VARIABLE NAME HERE AT VIEWchild
-  @ViewChild('Form') addPropertyForm!: NgForm;
+  // @ViewChild('Form') addPropertyForm!: NgForm;
   @ViewChild('formTabs', { static: false }) formTabs!: TabsetComponent;
   //will come from masters table
   propertyTypes: Array<string> = ['House', 'Apartment', 'Duplex'];
   furnishTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
   // propertyView = {};
-  propertyView: IProperty = {
+  propertyView: IPropertyBase = {
     Id: 0,
     SellRent: 1,
     Name: '',
-    Type: '',
-    Price: 0
+    PType: '',
+    Price: 0,
+    FType: '',
+    BHK: 0,
+    BuiltArea: 0,
+    City: '',
+    RTM: 0
   };
 
-
-  constructor(private router: Router) { }
+  addPropertyForm!: FormGroup;
+  constructor(private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     //form control tree is not initiated that's why we will get can't read 
@@ -51,7 +59,22 @@ export class AddPropertyComponent implements OnInit {
     // setTimeout(() => {
     //   this.addPropertyForm.controls['Name'].setValue('default value');
     // },1000);
+    this.createAssPropertyForm();
+  }
+  createAssPropertyForm() {
+    this.addPropertyForm = this.fb.group({
+      //nested group in reactive forms
+      BasicInfo: this.fb.group({
+        SellRent: [null, Validators.required],
+        PType: [null, Validators.required],
+        Name: [null, Validators.required],
+      }),
+      PriceInfo: this.fb.group({
+        Price: [null, Validators.required],
+        BuiltArea: [null, Validators.required]
+      })
 
+    });
   }
 
   onBack() {
@@ -65,6 +88,7 @@ export class AddPropertyComponent implements OnInit {
 
   onSubmit() {
     console.log('congrats, form submitted successfully');
+    console.log('SellRent=' + this.addPropertyForm.value.BasicInfo.SellRent);
     console.log(this.addPropertyForm);
   }
 

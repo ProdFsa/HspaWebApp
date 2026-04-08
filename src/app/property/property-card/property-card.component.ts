@@ -1,7 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { IProperty } from "../IProperty";
+// import { IProperty } from "../IProperty";
 import { RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
+import { IPropertyBase } from "../../models/ipropertybase";
 
 
 @Component({
@@ -13,7 +14,8 @@ import { CommonModule } from "@angular/common";
 
 })
 export class PropertyCardComponent {
-    @Input() property!: IProperty;
+    @Input() property!: IPropertyBase;//child and getting datat transfer from parent property-list
+    @Input() hiddenIcons!: boolean;
 
 
 }

@@ -4,7 +4,7 @@
   <button (click)="onBack()" class="btn btn-primary">Back</button>
 </p> -->
 <div class="row mb-5">
-  <div class="col-8">
+  <div class="col-8 shadow-lg bg-white">
     <div class="card">
       <!-- caption -->
       <div class="card-header"><h3>List Your Property</h3></div>
@@ -18,14 +18,33 @@
     by formsmodule -->
 
         <!-- <form (ngSubmit)="onSubmit(Form)" #Form="ngForm"> -->
-        <form (ngSubmit)="onSubmit()" #Form="ngForm">
-          <div>
-            <tabset #formTabs>
-              <tab heading="Basic Info">
+        <form (ngSubmit)="onSubmit()" [formGroup]="addPropertyForm">
+          <!-- <form (ngSubmit)="onSubmit()" #Form="ngForm"> -->
+          <div class="tab-panel">
+            <tabset class="member-tabset" #formTabs>
+              <tab heading="Basic Info" formGroupName="BasicInfo">
+                <!-- <tab
+                heading="Basic Info"
+                ngModelGroup="BasicInfo"
+                #basicInfo="ngModelGroup"
+              > -->
+
                 <div class="form-group col-12">
                   <p class="mb-2">I want to</p>
 
-                  <div class="btn-group" btnRadioGroup>
+                  <div
+                    class="btn-group"
+                    btnRadioGroup
+                    formControlName="SellRent"
+                  >
+                    <!-- <div
+                    class="btn-group"
+                    btnRadioGroup
+                    ngModel
+                    name="SellRent"
+                    required
+                  > -->
+
                     <label
                       class="btn btn-outline-primary me-2 custom-radio"
                       btnRadio="1"
@@ -45,7 +64,14 @@
                 <div class="form-group col-12">
                   <p class="mb-2">BHK</p>
 
-                  <div class="btn-group" btnRadioGroup>
+                  <div class="btn-group" btnRadioGroup formControlName="BHK">
+                    <!-- <div
+                    class="btn-group"
+                    btnRadioGroup
+                    name="BHK"
+                    [(ngModel)]="propertyView.BHK"
+                  > -->
+
                     <label
                       *ngFor="let bhk of [1, 2, 3, 4]"
                       class="btn btn-outline-primary mr-2 custom-radio"
@@ -65,8 +91,7 @@
                   <div
                     class="btn-group"
                     btnRadioGroup
-                    name="propertType"
-                    [(ngModel)]="propertyView.Type"
+                    formControlName="propertType"
                   >
                     <label
                       *ngFor="let ptype of propertyTypes"
@@ -84,7 +109,7 @@
                 <div class="form-group col-12">
                   <p class="mb-2">Furnishing Type</p>
 
-                  <div class="btn-group" btnRadioGroup>
+                  <div class="btn-group" btnRadioGroup formControlName="FType">
                     <label
                       *ngFor="let ftype of furnishTypes"
                       class="btn btn-outline-primary mr-2 custom-radio"
@@ -103,21 +128,20 @@
                   <input
                     type="text"
                     class="form-control"
-                    #propName="ngModel"
-                    ngModel
-                    name="Name"
-                    required
+                    formControlName="Name"
                     minlength="5"
-                    [(ngModel)]="propertyView.Name"
                   />
                   <span
-                    *ngIf="!propName.valid && propName.touched"
+                    *ngIf="
+                      !addPropertyForm.get('Name')?.invalid &&
+                      addPropertyForm.get('Name')?.touched
+                    "
                     class="error-block"
                   >
-                    <span *ngIf="propName.errors?.['required']">
+                    <span *ngIf="addPropertyForm.errors?.['required']">
                       Please provide name</span
                     >
-                    <span *ngIf="propName.errors?.['minlength']">
+                    <span *ngIf="addPropertyForm.errors?.['minlength']">
                       Name must be atleast five character long</span
                     >
                   </span>
@@ -130,7 +154,11 @@
 
                 <div class="form-group col-12">
                   <label for="city">City</label>
-                  <input type="text" class="form-control" /><br />
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="City"
+                  /><br />
                 </div>
 
                 <div class="form-group col-12">
@@ -139,6 +167,12 @@
                     class="btn btn-primary w-100"
                     (click)="selectTab(1)"
                   >
+                    <!-- <button
+                    type="button"
+                    class="btn btn-primary w-100"
+                    (click)="selectTab(1)"
+                    [disabled]="!basicInfo.valid"
+                  > -->
                     Next
                   </button>
 
@@ -146,7 +180,7 @@
                 </div>
               </tab>
               <!-- going to select next tab pricing and area tab -->
-              <tab heading="Pricing and Area">
+              <tab heading="Pricing and Area" formGroupName="PriceInfo">
                 <div class="row">
                   <div class="col-12">
                     <div class="mb-3">
@@ -154,8 +188,7 @@
                       <input
                         type="text"
                         class="form-control"
-                        name="price"
-                        [(ngModel)]="propertyView.Price"
+                        formControlName="price"
                       />
                     </div>
 
@@ -171,7 +204,11 @@
 
                     <div class="mb-3">
                       <label class="form-label">Built Area (in Sq Feet)</label>
-                      <input type="text" class="form-control" />
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="BuiltArea"
+                      />
                     </div>
 
                     <div class="mb-3">
@@ -409,12 +446,16 @@
   <div class="col-sm-4">
     <div class="card-header">
       <h3>Your Property Preview</h3>
-      <div>
-        <app-property-card [property]="propertyView"></app-property-card>
-      </div>
+    </div>
+    <div class="shadow-lg p-3 bg-white">
+      <app-property-card
+        [property]="propertyView"
+        [hiddenIcons]="true"
+      ></app-property-card>
     </div>
   </div>
 </div>
+
 <!-- two-way-data binding
 when we need to keep any property synchronized with model and view means 
 when we type something that will reflect immediatly in ui at runtime is called two way data binding 
